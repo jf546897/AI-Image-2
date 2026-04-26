@@ -829,7 +829,7 @@ def _save_request_cache(prompt: str, images: list[UploadFile], mask: Optional[Up
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 
 @app.get("/api/config")
