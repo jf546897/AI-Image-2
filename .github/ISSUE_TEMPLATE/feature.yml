@@ -1,0 +1,54 @@
+name: 功能建议
+description: 提出新能力、体验优化或维护改进建议
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        欢迎提交功能建议。请先说明**要解决的问题**，再描述建议方案，便于评估优先级和实现边界。
+  - type: textarea
+    id: problem
+    attributes:
+      label: 你遇到的问题
+      description: 这个需求想解决什么痛点？
+      placeholder: 例如：当前无法快速判断某个 OpenAI 兼容网关是否支持图片生成。
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 建议方案
+      description: 说明你希望增加或调整的行为。
+      placeholder: 例如：增加“连接测试”按钮，并分别测试 models 与 image generation。
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 备选方案 / 临时绕过方式
+      description: 如果你考虑过其他方案，请一并说明。
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 可能影响的范围
+      options:
+        - label: 启动 / 打包流程
+        - label: API 配置与提供方兼容
+        - label: 图片生成流程
+        - label: 页面交互 / UI
+        - label: 文档 / 社区维护
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 建议验收标准
+      description: 用勾选项或短句描述“做到什么算完成”。
+      placeholder: |
+        - 能区分配置错误与提供方不兼容
+        - 用户无需查看日志即可得到明确提示
+  - type: textarea
+    id: extra
+    attributes:
+      label: 补充信息
+      description: 可补充参考链接、截图、竞品行为或使用场景。

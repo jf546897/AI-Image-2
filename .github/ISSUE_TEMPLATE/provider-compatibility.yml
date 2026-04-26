@@ -1,0 +1,98 @@
+name: Provider 兼容性反馈
+description: 报告某个 API 提供方 / 网关的兼容情况
+title: "[Provider] "
+labels:
+  - compatibility
+body:
+  - type: markdown
+    attributes:
+      value: |
+        该模板用于沉淀不同提供方的兼容性信息。请尽量提供**接口风格、测试步骤、成功/失败现象**，并确保所有内容都已脱敏。
+  - type: input
+    id: provider_name
+    attributes:
+      label: 提供方名称
+      placeholder: OpenAI / Azure OpenAI / 自建网关 / 第三方中转
+    validations:
+      required: true
+  - type: input
+    id: base_url
+    attributes:
+      label: Base URL（脱敏）
+      description: 只填域名或公开前缀，不要带密钥或私有参数。
+      placeholder: https://api.openai.com/v1
+    validations:
+      required: true
+  - type: dropdown
+    id: provider_type
+    attributes:
+      label: 提供方类型
+      options:
+        - 官方 OpenAI
+        - OpenAI 兼容网关
+        - 自建 / 自托管
+        - 企业代理 / 中转
+        - 其他
+    validations:
+      required: true
+  - type: checkboxes
+    id: tested_features
+    attributes:
+      label: 已测试能力
+      options:
+        - label: 保存 API 配置
+        - label: 获取模型列表
+        - label: 生成图片
+        - label: 错误提示可读
+        - label: 便携版启动 / 停止
+  - type: textarea
+    id: models
+    attributes:
+      label: 模型兼容情况
+      description: 请分别列出已成功与失败的模型 ID。
+      placeholder: |
+        成功：gpt-image-2
+        失败：vendor-image-preview（404）
+    validations:
+      required: true
+  - type: textarea
+    id: request_shape
+    attributes:
+      label: 接口特征（如已知）
+      description: 例如 /models 是否可用、图片生成走哪个端点、是否要求额外 Header。
+      placeholder: |
+        - /v1/models: 可用
+        - 图片生成: /v1/images
+        - 认证: 标准 Bearer Token
+  - type: textarea
+    id: result
+    attributes:
+      label: 实际结果
+      description: 描述你观察到的兼容性结论。
+      placeholder: |
+        - 模型列表正常
+        - 图片生成返回 400，提示 body 中缺少某字段
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 最小复现步骤
+      placeholder: |
+        1. 启动 portable 版本
+        2. 填写 Base URL 与 API Key
+        3. 点击 Save
+        4. 点击 Generate
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志 / 响应摘要（请脱敏）
+      render: shell
+  - type: input
+    id: environment
+    attributes:
+      label: 运行环境
+      description: Windows 版本、是否 bundled runtime、是否代理等。
+      placeholder: Windows 11 23H2 / bundled runtime / 无代理

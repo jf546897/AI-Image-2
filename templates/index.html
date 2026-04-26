@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image 2</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=20260426-layout3">
+</head>
+<body>
+    <div class="console-shell">
+        <aside class="side-nav" aria-label="AI Image navigation">
+            <button class="nav-item active" type="button"><span class="nav-icon nav-spark"></span><span>&#25991;&#29983;&#22270;</span></button>
+            <button class="nav-item" type="button"><span class="nav-icon nav-image"></span><span>&#22270;&#29983;&#22270;</span></button>
+            <button class="nav-item" type="button"><span class="nav-icon nav-clock"></span><span>&#21382;&#21490;</span></button>
+            <button class="nav-item nav-bottom" type="button"><span class="nav-icon nav-gear"></span><span>&#35774;&#32622;</span></button>
+        </aside>
+
+        <div class="workspace">
+            <header class="topbar">
+                <div class="brand">
+                    <h1>AI Image 2</h1>
+                    <span>&#26234;&#33021;&#22270;&#20687;&#29983;&#25104; - Advanced</span>
+                </div>
+                <div class="top-actions">
+                    <div id="config-badge" class="config-badge">Loading config...</div>
+                    <button class="icon-btn" type="button" title="Generation history">History</button>
+                    <button class="circle-btn" type="button" title="Help">i</button>
+                    <button class="avatar-btn" type="button">A</button>
+                </div>
+            </header>
+
+            <main class="console-grid">
+                <section class="panel control-panel">
+                    <form id="image-form" class="control-form" novalidate>
+                        <div class="section-card api-card">
+                            <div class="section-title">
+                                <h2>API Settings</h2>
+                                <span id="api-config-status">Local config</span>
+                            </div>
+                            <div class="api-row">
+                                <label class="field">
+                                    <span>API URL Base</span>
+                                    <input type="url" id="api-base-url" placeholder="https://your-gateway.example.com">
+                                </label>
+                                <label class="field">
+                                    <span>API Key</span>
+                                    <input type="password" id="api-key" placeholder="sk-...">
+                                </label>
+                                <button type="button" id="save-api-config-btn" class="secondary-btn api-save-btn">Save</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card prompt-card">
+                            <div class="section-title inline-help">
+                                <h2>&#25552;&#31034;&#35789;</h2>
+                                <span>i</span>
+                            </div>
+                            <label class="field prompt-field">
+                                <textarea id="prompt" rows="6" required>&#26480;&#20316;&#65292;&#26368;&#39640;&#30011;&#36136;&#65292;&#36229;&#20889;&#23454;&#20027;&#20041;&#65292;8k&#20998;&#36776;&#29575;&#65292;&#30005;&#24433;&#32423;&#36136;&#24863;&#12290;&#22312;&#19968;&#20010;&#26497;&#20854;&#30772;&#26087;&#12289;&#23506;&#20919;&#30340;&#27431;&#27954;&#20013;&#19990;&#32426;&#25151;&#23627;&#20869;&#37096;&#65292;&#20463;&#35270;&#20840;&#26223;&#38236;&#22836;&#12290;&#25151;&#38388;&#32467;&#26500;&#19982;&#21442;&#32771;&#22270;&#20445;&#25345;&#19968;&#33268;&#65306;&#31895;&#31961;&#30340;&#20013;&#19990;&#32426;&#26408;&#24202;&#12289;&#30707;&#22681;&#12289;&#30772;&#25439;&#25329;&#24418;&#26408;&#31383;&#12289;&#26292;&#39118;&#38634;&#21644;&#34013;&#33394;&#23506;&#22812;&#27675;&#22260;&#65292;&#20154;&#29289;&#20301;&#32622;&#21644;&#27604;&#20363;&#21442;&#32771;&#19978;&#20256;&#22270;&#29255;&#12290;</textarea>
+                            </label>
+                            <div class="textarea-meta"><span>&#35831;&#25551;&#36848;&#35201;&#29983;&#25104;&#25110;&#20462;&#25913;&#30340;&#30011;&#38754;</span><span id="prompt-count">0 / 4000</span></div>
+                        </div>
+
+                        <div class="section-card refs-card">
+                            <div class="section-title">
+                                <h2>&#21442;&#32771;&#22270;&#65288;&#21487;&#36873;&#65289;</h2>
+                                <span class="small-note">1-16 images</span>
+                            </div>
+                            <div class="refs-row">
+                                <div id="image-drop-zone" class="upload-tile main-upload">
+                                    <input type="file" id="image-file" accept="image/png,image/jpeg,image/webp" multiple>
+                                    <strong>+</strong>
+                                    <span>&#28857;&#20987;&#25110;&#25302;&#20837;&#21442;&#32771;&#22270;</span>
+                                    <em>JPG / PNG / WEBP</em>
+                                </div>
+                                <div id="image-preview-list" class="preview-grid"></div>
+                            </div>
+                        </div>
+
+                        <div class="section-card mask-card">
+                            <div class="section-title">
+                                <h2>&#36974;&#32617;&#22270;&#65288;&#21487;&#36873;&#65292;&#23616;&#37096;&#37325;&#32472;&#29992;&#65289;</h2>
+                            </div>
+                            <div class="mask-row">
+                                <div id="mask-drop-zone" class="upload-tile mask-upload-tile">
+                                    <input type="file" id="mask-file" accept="image/png,image/jpeg,image/webp">
+                                    <span>&#19981;&#38656;&#35201;&#23616;&#37096;&#37325;&#32472;&#23601;&#30041;&#31354;</span>
+                                    <em>&#30333;&#33394;/&#36879;&#26126; = &#20462;&#25913;&#21306;&#22495;</em>
+                                </div>
+                                <img id="mask-preview" class="preview hidden" alt="Mask preview">
+                            </div>
+                            <p id="mask-note" class="mask-note">&#36974;&#32617;&#21482;&#22312;&#22270;&#29983;&#22270;&#26102;&#20351;&#29992;&#65306;&#20808;&#19978;&#20256;&#21407;&#22270;&#65292;&#20877;&#19978;&#20256;&#21516;&#23610;&#23544;&#36974;&#32617;&#22270;&#12290;</p>
+                        </div>
+
+                        <div class="section-card settings-card">
+                            <div class="section-title">
+                                <h2>&#29983;&#25104;&#35774;&#32622;</h2>
+                            </div>
+                            <div class="field-grid">
+                                <label class="field"><span>&#23610;&#23544;</span><select id="size"><option value="auto">&#33258;&#21160;</option><option value="1024x1024">1024 x 1024</option><option value="1024x1536">1024 x 1536</option><option value="1536x1024">1536 x 1024</option></select></label>
+                                <label class="field"><span>&#36136;&#37327;</span><select id="quality"><option value="auto">&#33258;&#21160;</option><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label>
+                                <label class="field"><span>&#32972;&#26223;</span><select id="background"><option value="auto">&#33258;&#21160;</option><option value="transparent">Transparent</option><option value="opaque">Opaque</option></select></label>
+                                <label class="field"><span>&#26684;&#24335;</span><select id="output-format"><option value="png">PNG</option><option value="jpeg">JPEG</option><option value="webp">WebP</option></select></label>
+                                <label class="field"><span>&#21387;&#32553;</span><input type="number" id="output-compression" min="0" max="100" value="100"></label>
+                            </div>
+                        </div>
+
+                        <div class="actions console-actions">
+                            <button type="submit" id="generate-btn" class="primary-btn">Generate Image</button>
+                            <button type="button" id="clear-btn" class="secondary-btn">Reset</button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="right-stack">
+                    <section class="panel result-panel">
+                        <div class="panel-title result-title">
+                            <h2>&#29983;&#25104;&#32467;&#26524;</h2>
+                            <span id="result-status">&#31561;&#24453;&#29983;&#25104;</span>
+                            <div class="result-tools"><button type="button">DL</button><button type="button">Fav</button><button type="button">Full</button></div>
+                        </div>
+                        <div id="progress-panel" class="progress-panel hidden">
+                            <div class="progress-info"><strong id="progress-stage">Ready</strong><span id="progress-percent">0%</span></div>
+                            <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+                            <p id="progress-message">Waiting</p>
+                            <p id="progress-elapsed">0s</p>
+                        </div>
+                        <div id="empty-result" class="empty-result input-summary">
+                            <div class="summary-head">
+                                <strong>Input Preview</strong>
+                                <span>Prompt and reference images before generation</span>
+                            </div>
+                            <p id="summary-prompt" class="summary-prompt">Prompt will appear here.</p>
+                            <div id="summary-images" class="summary-images"></div>
+                        </div>
+                        <div id="result-list" class="result-list"></div>
+                    </section>
+
+                    <section class="panel history-panel">
+                        <div class="panel-title"><h2>&#21382;&#21490;&#35760;&#24405;</h2><span>&#26597;&#30475;&#20840;&#37096; ></span></div>
+                        <div id="history-strip" class="history-strip"></div>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div id="page-drop-overlay" class="page-drop-overlay hidden"><div><strong id="page-drop-title">Drop images here</strong><span id="page-drop-subtitle">Release to add reference images</span></div></div>
+    <div id="toast-root" class="toast-root"></div>
+    <script src="/static/js/app.js?v=20260426-layout3"></script>
+</body>
+</html>

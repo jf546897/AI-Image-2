@@ -1,0 +1,12 @@
+cache/
+dist/
+*.log
+local_config.json
+.env
+.env.*
+.venv/
+__pycache__/
+.pytest_cache/
+runtime/
+*.zip
+.git/
