@@ -62,6 +62,8 @@ const el = {
     maskPreview: document.getElementById('mask-preview'),
     generateBtn: document.getElementById('generate-btn'),
     clearBtn: document.getElementById('clear-btn'),
+    settingsToggle: document.getElementById('settings-toggle'),
+    settingsPanel: document.getElementById('settings-panel'),
     configBadge: document.getElementById('config-badge'),
     apiBaseUrl: document.getElementById('api-base-url'),
     apiKey: document.getElementById('api-key'),
@@ -510,6 +512,18 @@ async function saveApiConfig() {
     }
 }
 
+function setSettingsExpanded(expanded) {
+    if (!el.settingsToggle || !el.settingsPanel) return;
+    el.settingsPanel.classList.toggle('hidden', !expanded);
+    el.settingsToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    el.settingsToggle.textContent = expanded ? '\u6536\u8d77\u8bbe\u7f6e' : '\u8bbe\u7f6e';
+}
+
+function toggleSettings() {
+    if (!el.settingsPanel) return;
+    setSettingsExpanded(el.settingsPanel.classList.contains('hidden'));
+}
+
 function updateViewportMode() {
     document.body.classList.toggle('compact-height', window.innerHeight < 820);
     document.body.classList.toggle('ultra-compact-height', window.innerHeight < 700);
@@ -536,7 +550,9 @@ document.addEventListener('DOMContentLoaded', () => {
     bindPageDropTarget();
     el.form.addEventListener('submit', submitRequest);
     el.clearBtn.addEventListener('click', clearResults);
+    if (el.settingsToggle) el.settingsToggle.addEventListener('click', toggleSettings);
     if (el.saveApiConfigBtn) el.saveApiConfigBtn.addEventListener('click', saveApiConfig);
+    setSettingsExpanded(false);
     loadConfig();
     window.addEventListener('resize', updateViewportMode);
 });
