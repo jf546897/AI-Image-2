@@ -208,10 +208,11 @@ http://127.0.0.1:8012/
 - `OPENAI_BASE_URL`
 - `AI_IMAGE_HOST`
 - `AI_IMAGE_PORT`
+- `AI_IMAGE_ENABLE_EXTERNAL_CONFIG`：设为 `1` 后，才允许从环境变量或本机 `.codex` 配置导入 API 信息
 
 ### 本地配置来源
 
-当前实现会优先读取页面保存下来的 `local_config.json`；如果没有，再尝试从环境变量或本机 `.codex` 配置中获取相关信息。
+当前默认只读取页面保存下来的 `local_config.json`。如果你希望导入环境变量或本机 `.codex` 配置，请显式设置 `AI_IMAGE_ENABLE_EXTERNAL_CONFIG=1` 后再启动。这样做是为了避免开源分发时默认探测用户本机凭据。
 
 如果只是给终端用户使用，最简单的方法仍然是：**直接在网页里填写并保存**。
 
@@ -250,7 +251,7 @@ http://127.0.0.1:8012/
 
 ## License
 
-??????? MIT License ???????????????????????????? `THIRD_PARTY_NOTICES.md`?
+本项目源码采用 MIT License 发布。第三方运行时和依赖组件仍分别适用其各自许可证，详见 `THIRD_PARTY_NOTICES.md`。
 
 ---
 
